@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, BarChart3, Shield, Zap } from "lucide-react";
-import { Button } from '../Ui/Button';
+import { ArrowRight, BarChart3, Shield, Zap } from "lucide-react"
+import { Button } from '../ui/Button';
 
 const HeroSection = () => (
   <section className="relative overflow-hidden pt-32 pb-20 lg:pt-40 lg:pb-32">

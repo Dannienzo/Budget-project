@@ -4,7 +4,7 @@ import { UserCheck,User,Mail, LockKeyhole, ShieldCheck, Eye, EyeOff, ShieldUser 
 import {toast} from 'react-toastify'
 import './Register.css'
 import axios from 'axios'
-import { Button } from '../Ui/Button';
+import { Button } from '../ui/Button';
 
 
 const base_url='http://127.0.0.1:8000/api/register/'
