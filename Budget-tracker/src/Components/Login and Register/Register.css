@@ -1,0 +1,114 @@
+.auth-wrapper{
+    min-height: 100vh;
+    background: #0b0b0f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #000000, #19231e);
+    background-size: cover;
+}
+
+.theform {
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: rgba(18, 18, 18, 0.75);
+    background-image: radial-gradient(circle at top left, rgba(0, 255, 178, 0.2), transparent 40%);
+    border-radius: 20px;
+    padding: 2rem;
+    max-width: 550px;
+    width: 100%;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.theform h2{
+    color: aliceblue;
+    font-size: 1.8rem;
+    margin-bottom: 0.25rem;
+}
+
+.theform .form-control{
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+.Subtext{
+    color: #aaa;
+    margin-bottom: 2rem;
+    font-size: 0.8rem;
+    text-align: center;
+}   
+
+.data-input{
+    flex: 1;
+    padding: 0.8rem 1rem;
+    border: none;
+    background: transparent;
+    color: aliceblue;
+    font-size: 0.95rem;
+}
+
+.data-input:focus{
+    outline: none;
+}
+
+.regicon{
+    color: rgb(74, 100, 90);
+    cursor: pointer;
+}
+
+.signup-text{
+    margin-top: 1rem;
+    color: #888;
+    font-size: 0.85rem;
+}
+
+.signup-text a {
+    color: #00bfff;
+    text-decoration: none;
+}
+
+.signup-text a:hover{
+    text-decoration: underline;
+}
+
+.auth-wrapper .btn{
+    color: black;
+    box-shadow: none;
+    border: none;
+}
+
+.auth-wrapper .btn:hover{
+    background-color: rgb(134, 244, 207);
+}
+
+.password-wrapper{
+    position: relative;
+    display: flex;
+    align-content: center;
+}
+
+.password-wrapper .eye-icon{
+    position: absolute;
+    left: 26rem;
+    cursor: pointer;
+    font-size: sma;
+    color: rgb(93, 138, 114);
+}
+
+
+
+@media (max-width: 500px) {
+  .theform {
+    padding: 1.5rem;
+  }
+
+  .theform h2 {
+    font-size: 1.5rem;
+  }
+}

@@ -1,47 +1,60 @@
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 import { BudgetProvider } from './Components/Context/Context';
-import {ToastContainer} from 'react-toastify'
+import { ToastContainer } from 'react-toastify';
 import Navbar from './Components/Navbarfiles/Navbar';
 import Footer from './Components/Footerfiles/Footer';
-import Home from './Components/Pages/Home'
-import About from './Components/Pages/About'
-import Contact from './Components/Pages/Contact'
-import Blog from './Components/Pages/Blog'
-import Budgeting from './Components/Pages/Budgeting'
-import Dashboard from './Components/Pages/Dashboard'
-import Expenses from './Components/Pages/Expenses'
-import Login from './Components/Pages/Login'
-import Signup from './Components/Pages/Signup'
-import Settings from './Components/Pages/Settings'
+import Home from './Components/Pages/Home';
+import About from './Components/Pages/About';
+import Blog from './Components/Pages/Blog';
+import Dashboard from './Components/Pages/Dashboard/Dashboard'
+import Login from './Components/Login and Register/Login';
+import Signup from './Components/Login and Register/Signup';
+import Pricing from './Components/Pages/Pricing';
+import PrivateRoute from './Components/privateroute';
+import { AuthProvider } from './Components/Context/AuthContext';
 
 
-function App() {
-  return(
-    <> 
-
-  <BudgetProvider>
-    <Router>
-      <Navbar/>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/about' element={<About />} />
-          <Route path='/contact' element={<Contact />} />
-          <Route path='/blog' element={<Blog />} />
-          <Route path='/budgeting' element={<Budgeting />} />
-          <Route path='/dashboard' element={<Dashboard />} />
-          <Route path='/expenses' element={<Expenses />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/signup' element={<Signup />} />
-          <Route path='/settings' element={<Settings />} />
-
-        </Routes>  
-          <ToastContainer position='top-right' autoClose={3000} />
-        <Footer/>
-    </Router>
-  </BudgetProvider>
-    
+// ✅ Layout for normal pages
+function MainLayout() {
+  return (
+    <>
+      <Navbar />
+      <Outlet />
+      <Footer />
     </>
   );
 }
 
-export default App
+function App() {
+  return (
+    <Router>
+      <AuthProvider>
+        <BudgetProvider>
+          <Routes>
+            <Route element={<MainLayout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/pricing" element={<Pricing />} />
+            </Route>
+
+          
+             <Route
+              path="/dashboard"
+              element={ <PrivateRoute>
+              <Dashboard/>
+              </PrivateRoute>
+            } />
+
+          </Routes>
+
+          <ToastContainer position="top-right" autoClose={3000} />
+        </BudgetProvider>
+      </AuthProvider>
+    </Router>
+  );
+}
+
+export default App;

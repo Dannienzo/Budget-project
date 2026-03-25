@@ -1,0 +1,18 @@
+.Test{
+    background-color: #0b0b0f;
+    color: aliceblue;
+    font-family: cursive;
+    font-size: 30px;
+    padding-top: 30px;
+    height: 40vh;
+}
+
+.testbtn{
+    padding-top: 150px;
+    font-family: san-sa;
+}
+.btn{
+    background-color: #00ffb2;
+    color: #000;
+    box-shadow: 0 0 20px rgba(0, 255, 178, 0.7);
+}

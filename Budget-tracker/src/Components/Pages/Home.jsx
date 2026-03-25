@@ -1,10 +1,18 @@
 import React from 'react'
-import Banner from '../Pages/Banner'
+import HeroSection from '../Landing/Herosection'
+import FeaturesSection from '../Landing/FeatureSession'
+import Testimonial from './testiminial/Testimonial'
+import TestimonialsSection from '../Landing/Testimoniol'
+import CTASection from '../Landing/CTASession'
 
 function Home() {
   return (
     <div>
-        <Banner/>
+       <HeroSection/>
+       <FeaturesSection/>
+        <Testimonial/>
+        <TestimonialsSection/>
+        <CTASection/>
     </div>
   )
 }
