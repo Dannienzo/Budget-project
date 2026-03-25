@@ -1,6 +1,4 @@
 import React from 'react'
-import Lottie from "lottie-react"
-import scrollIcon from "../../../assets/scroll-Down.json"
 import '../testiminial/testimonial.css'
 
 
@@ -11,7 +9,7 @@ function Testimonial() {
         Simplicity, intelligence, and security <br />empowering you to take control of your finances with confidence <br />clarity, and smarter budgeting decisions.
         </p>
       <div style={{ width: 80, margin: "0 auto", height: 80 }}>
-        <Lottie animationData={scrollIcon} loop={true} autoplay={true} style={{ cursor: "pointer" }}  />
+         <div className="animate-bounce text-primary text-4xl">↓</div>
       </div>
     </div>
   )
