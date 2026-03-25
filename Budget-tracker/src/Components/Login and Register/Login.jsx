@@ -5,7 +5,7 @@ import axios from 'axios'
 import { Mail, LockKeyhole, Eye, EyeOff } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../Context/AuthContext'
-import { Button } from '../Ui/Button';
+import { Button } from '../ui/Button';
 
 const Login = () => {
   const [form, setForm] = useState({ username: '', password: '' });
