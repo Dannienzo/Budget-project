@@ -29,15 +29,15 @@ const HeroSection = () => (
             Track expenses, set budgets, analyze spending patterns, and achieve your financial goals — all in one powerful dashboard.
           </p>
 
-          <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-            <Link to="/signup">
-              <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-base px-8 h-12 gap-2">
+          <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center w-full px-4 sm:px-0">
+            <Link to="/signup" className="w-full sm:w-auto">
+              <Button size="lg" className="w-full sm:w-auto flex justify-center items-center bg-primary text-primary-foreground hover:bg-primary/90 font-semibold text-base px-8 h-12 gap-2">
                 Start Free Trial
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
-            <Link to="/about">
-              <Button size="lg" variant="outline" className="text-base px-8 h-12 border-border hover:bg-secondary">
+            <Link to="/about" className="w-full sm:w-auto">
+              <Button size="lg" variant="outline" className="w-full sm:w-auto flex justify-center items-center text-base px-8 h-12 border-border hover:bg-secondary">
                 Learn More
               </Button>
             </Link>
@@ -48,7 +48,7 @@ const HeroSection = () => (
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-20 grid grid-cols-3 gap-8"
+          className="mt-20 grid grid-cols-1 sm:grid-cols-3 gap-8"
         >
           {[
             { value: "50K+", label: "Active Users" },

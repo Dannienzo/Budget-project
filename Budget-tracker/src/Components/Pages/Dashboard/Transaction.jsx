@@ -221,7 +221,7 @@ const Transaction = () => {
 
       {/* Stats Cards - Mobile Responsive */}
       <div className='p-4 sm:p-6 border-b border-[#2F2F2F]'>
-        <div className='grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6'>
           <div className='bg-[#111111] border border-[#2F2F2F] rounded-xl p-3 sm:p-4'>
             <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2'>
               <div className="flex-1">
