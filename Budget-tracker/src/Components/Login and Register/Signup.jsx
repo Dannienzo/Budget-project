@@ -7,7 +7,7 @@ import axios from 'axios'
 import { Button } from '../ui/Button';
 
 
-const base_url='http://127.0.0.1:8000/api/register/'
+const base_url='https://budget-backend-dl8u.onrender.com/api/register/'
 
 
 const Signup = () => {

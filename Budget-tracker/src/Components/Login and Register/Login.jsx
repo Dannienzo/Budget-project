@@ -17,7 +17,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post('http://127.0.0.1:8000/api/login/', form);
+      const res = await axios.post('https://budget-backend-dl8u.onrender.com/api/login/', form);
 
       setTokens({
         access: res.data.access,
