@@ -49,6 +49,7 @@ const Dashboard = () => {
       
       <div className="flex-1 flex flex-col overflow-hidden w-full lg:w-auto">
         <Header username={userData?.username}
+         recentActivity={userData?.recent_transactions || []}
          goToSettings={() => SetCurrentPage("Settings")}
         />
 

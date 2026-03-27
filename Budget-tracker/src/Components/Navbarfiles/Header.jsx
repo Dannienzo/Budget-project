@@ -1,11 +1,11 @@
 // src/Components/Navbarfiles/Header.jsx
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useBudget } from '../Context/Context';
 import { toast } from 'react-toastify';
 import { Bell, User, Search, ListPlus, CircleX, DollarSign, TrendingUp, TrendingDown } from 'lucide-react';
 import { useAuth } from '../Context/AuthContext';
 
-const Header = ({ username, goToSettings }) => {
+const Header = ({ username, goToSettings, recentActivity = [] }) => {
   const {
     showAddForm,
     setShowAddForm,
@@ -20,6 +20,18 @@ const Header = ({ username, goToSettings }) => {
   } = useBudget();
 
   const { userProfile } = useAuth()
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const notificationRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+        setIsNotificationOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleSubmit = async (e) => {
     e?.preventDefault?.();
@@ -124,11 +136,54 @@ const Header = ({ username, goToSettings }) => {
               <span className="sm:hidden">Add</span>
             </button>
 
-            {/* Notification Bell */}
-            <button className="p-1.5 sm:p-2 text-gray-400 hover:text-white transition-colors duration-200 relative">
-              <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="absolute -top-0.5 -right-0.5 w-2 h-2 sm:w-3 sm:h-3 bg-red-500 rounded-full"></span>
-            </button>
+            {/* Notification Bell Wrapper */}
+            <div className="relative" ref={notificationRef}>
+              <button 
+                onClick={() => setIsNotificationOpen(!isNotificationOpen)}
+                className="p-1.5 sm:p-2 text-gray-400 hover:text-white transition-colors duration-200 relative focus:outline-none"
+              >
+                <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
+                {recentActivity.length > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 sm:w-3 sm:h-3 bg-red-500 rounded-full border-2 border-[#252525]"></span>
+                )}
+              </button>
+
+              {/* Dropdown Menu */}
+              {isNotificationOpen && (
+                <div className="absolute right-0 mt-2 w-72 sm:w-80 bg-[#1a1a1a] border border-[#333] rounded-xl shadow-2xl z-50 overflow-hidden transform opacity-100 scale-100 transition-all duration-200">
+                  <div className="px-4 py-3 border-b border-[#333] flex justify-between items-center bg-[#252525]">
+                    <h3 className="text-white font-semibold text-sm sm:text-base">Recent Activity</h3>
+                    <span className="text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full shadow-sm">{recentActivity.length} New</span>
+                  </div>
+                  <div className="max-h-80 overflow-y-auto">
+                    {recentActivity.length > 0 ? (
+                      recentActivity.map((txn, idx) => (
+                        <div key={txn.id || idx} className="px-4 py-3 border-b border-[#333] last:border-b-0 hover:bg-[#252525] transition-colors cursor-pointer group">
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1 min-w-0 pr-2">
+                              <p className="text-sm text-gray-200 font-medium truncate group-hover:text-blue-400 transition-colors">
+                                {txn.description || (typeof txn.category === 'object' ? txn.category?.name : txn.category) || 'Transaction'}
+                              </p>
+                              <p className="text-xs text-gray-500 mt-1">
+                                {txn.date ? new Date(txn.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : 'Just now'}
+                              </p>
+                            </div>
+                            <div className={`text-sm font-semibold whitespace-nowrap ${txn.type === 'income' ? 'text-green-500' : 'text-red-500'}`}>
+                              {txn.type === 'income' ? '+' : '-'}₦{parseFloat(txn.amount || 0).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="px-4 py-6 text-center text-gray-500">
+                        <Bell className="w-8 h-8 mx-auto mb-2 opacity-20" />
+                        <p className="text-sm">No recent activity</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
 
               {userProfile?.avatar ? (
                 <img 
@@ -138,7 +193,10 @@ const Header = ({ username, goToSettings }) => {
                   className="w-9 h-9 sm:w-11 sm:h-11 rounded-full object-cover border-2 border-primary hover:border-primary transition-all duration-200 cursor-pointer shadow-lg" 
                 />
               ) : ( 
-                <div className="w-9 h-9 sm:w-11 sm:h-11 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center hover:from-blue-600 hover:to-purple-600 transition-all duration-200 cursor-pointer shadow-lg">
+                <div 
+                  onClick={goToSettings}
+                  className="w-9 h-9 sm:w-11 sm:h-11 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center hover:from-blue-600 hover:to-purple-600 transition-all duration-200 cursor-pointer shadow-lg"
+                >
                   <span className='text-white text-sm sm:text-base font-bold'>{initial}</span>
                 </div>
               )}

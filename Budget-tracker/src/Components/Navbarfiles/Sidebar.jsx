@@ -79,7 +79,10 @@ function Sidebar({ currentPage, onPageChange }) {
         {/* Logout button */}
         <div className="p-4 border-t border-[#2F2F2F]">
 
-          <div className="flex items-center gap-3 px-2 py-3 mb-2">
+          <div 
+            className="flex items-center gap-3 px-2 py-3 mb-2 cursor-pointer hover:bg-[#2F2F2F] rounded-lg transition-colors"
+            onClick={() => handlePageChange('Settings')}
+          >
             {userProfile?.avatar ? (
             <img
               src={userProfile.avatar}
