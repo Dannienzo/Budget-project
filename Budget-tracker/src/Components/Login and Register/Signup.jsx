@@ -16,11 +16,6 @@ const Signup = () => {
   })
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [showOTPModal, setShowOTPModal] = useState(false)
-  const [otp, setOtp] = useState(['', '', '', '', '', ''])
-  const [verifying, setVerifying] = useState(false)
-  const [resending, setResending] = useState(false)
-  const [userEmail, setUserEmail] = useState('')
   const navigate = useNavigate()
 
   const handleChange = (e) => {
@@ -37,14 +32,15 @@ const Signup = () => {
 
     try {
       setLoading(true)
-      await axios.post(`${base_url}register/`, {
+      const res = await axios.post(`${base_url}register/`, {
         username: formData.username,
         email: formData.email,
         password: formData.password,
       })
-      setUserEmail(formData.email)
-      toast.success('Account created! Check your email for the verification code.')
-      setShowOTPModal(true)
+      toast.success('Account created successfully!')
+      localStorage.setItem('access_token', res.data.access)
+      localStorage.setItem('refresh_token', res.data.refresh)
+      setTimeout(() => navigate('/dashboard'), 1500)
     } catch (err) {
       if (err.response?.data) {
         const data = err.response.data
@@ -61,77 +57,11 @@ const Signup = () => {
     }
   }
 
-  // Handle OTP input — auto move to next box
-  const handleOtpChange = (index, value) => {
-    if (value.length > 1) return
-    const newOtp = [...otp]
-    newOtp[index] = value
-    setOtp(newOtp)
-
-    // Auto focus next input
-    if (value && index < 5) {
-      document.getElementById(`otp-${index + 1}`)?.focus()
-    }
-  }
-
-  const handleOtpKeyDown = (index, e) => {
-    if (e.key === 'Backspace' && !otp[index] && index > 0) {
-      document.getElementById(`otp-${index - 1}`)?.focus()
-    }
-  }
-
-  const handleVerifyOTP = async () => {
-    const code = otp.join('')
-    if (code.length !== 6) {
-      toast.error('Please enter all 6 digits')
-      return
-    }
-
-    try {
-      setVerifying(true)
-      const res = await axios.post(`${base_url}verify-otp/`, {
-        email: userEmail,
-        code: code,
-      })
-
-      toast.success('Email verified! Redirecting to dashboard...')
-
-      // Store tokens and redirect to dashboard
-      localStorage.setItem('access_token', res.data.access)
-      localStorage.setItem('refresh_token', res.data.refresh)
-
-      setTimeout(() => navigate('/dashboard'), 1500)
-    } catch (err) {
-      const msg = err.response?.data?.error || 'Invalid or expired OTP'
-      toast.error(msg)
-      // Clear OTP inputs on error
-      setOtp(['', '', '', '', '', ''])
-      document.getElementById('otp-0')?.focus()
-    } finally {
-      setVerifying(false)
-    }
-  }
-
-  const handleResendOTP = async () => {
-    try {
-      setResending(true)
-      await axios.post(`${base_url}resend-otp/`, { email: userEmail })
-      toast.success('New code sent to your email!')
-      setOtp(['', '', '', '', '', ''])
-      document.getElementById('otp-0')?.focus()
-    } catch (err) {
-      toast.error('Failed to resend code. Please try again.')
-    } finally {
-      setResending(false)
-    }
-  }
-
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-[linear-gradient(135deg,#000000,#19231e)]">
 
       {/* Signup Form */}
-      {!showOTPModal && (
-        <form
+      <form
           onSubmit={handleSubmit}
           className="w-full max-w-md rounded-2xl border border-white/10 bg-[rgba(18,18,18,0.75)] backdrop-blur-lg p-8 shadow-[0_0_30px_rgba(0,0,0,0.2)] [background-image:radial-gradient(circle_at_top_left,rgba(0,255,178,0.2),transparent_40%)]"
         >
@@ -214,66 +144,6 @@ const Signup = () => {
             <Link to="/login" className="text-[#00bfff] hover:underline">Log in here</Link>
           </p>
         </form>
-      )}
-
-      {/* OTP Verification Modal */}
-      {showOTPModal && (
-        <div className="w-full max-w-md rounded-2xl border border-white/10 bg-[rgba(18,18,18,0.75)] backdrop-blur-lg p-8 shadow-[0_0_30px_rgba(0,0,0,0.2)] [background-image:radial-gradient(circle_at_top_left,rgba(0,255,178,0.2),transparent_40%)]">
-          
-          <div className="flex justify-center mb-4">
-            <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center">
-              <KeyRound className="w-8 h-8 text-primary" />
-            </div>
-          </div>
-
-          <h2 className="text-2xl font-bold text-center text-white mb-2">Verify Your Email</h2>
-          <p className="text-center text-[#aaa] text-sm mb-2">
-            We sent a 6-digit code to
-          </p>
-          <p className="text-center text-primary font-semibold mb-8">{userEmail}</p>
-
-          {/* OTP Input Boxes */}
-          <div className="flex justify-center gap-3 mb-8">
-            {otp.map((digit, index) => (
-              <input
-                key={index}
-                id={`otp-${index}`}
-                type="text"
-                inputMode="numeric"
-                maxLength={1}
-                value={digit}
-                onChange={(e) => handleOtpChange(index, e.target.value)}
-                onKeyDown={(e) => handleOtpKeyDown(index, e)}
-                className="w-12 h-12 text-center text-xl font-bold text-white bg-white/5 border border-white/20 rounded-xl outline-none focus:border-primary focus:ring-2 focus:ring-primary/30 transition-all"
-              />
-            ))}
-          </div>
-
-          <Button
-            onClick={handleVerifyOTP}
-            disabled={verifying}
-            size="lg"
-            className="w-full hover:shadow-[0_0_20px_rgba(0,255,178,0.3)] transition-all duration-300 mb-4"
-          >
-            {verifying ? 'Verifying...' : 'Verify Email'}
-          </Button>
-
-          <div className="text-center">
-            <p className="text-[#888] text-sm mb-2">Didn't receive the code?</p>
-            <button
-              onClick={handleResendOTP}
-              disabled={resending}
-              className="text-primary hover:underline text-sm font-medium disabled:opacity-50"
-            >
-              {resending ? 'Sending...' : 'Resend Code'}
-            </button>
-          </div>
-
-          <p className="text-center text-[#666] text-xs mt-4">
-            Code expires in 10 minutes
-          </p>
-        </div>
-      )}
 
     </div>
   )
