@@ -99,7 +99,7 @@ const Header = ({ username, goToSettings, recentActivity = [] }) => {
 
   return (
     <div>
-      <header className="bg-[#252525] border-b border-[#2F2F2F] px-4 sm:px-6 py-3 sm:py-4">
+      <header className="bg-[#252525] border-b border-[#2F2F2F] pl-14 pr-4 sm:pl-16 sm:pr-6 lg:px-6 py-3 sm:py-4">
         <div className="flex items-center justify-between gap-3">
           {/* Left Section - Welcome Message */}
           <div className="flex flex-col min-w-0 flex-1">
